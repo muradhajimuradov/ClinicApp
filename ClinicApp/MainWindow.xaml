@@ -1,0 +1,31 @@
+﻿<Window x:Class="ClinicApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ClinicApp.Views"
+        xmlns:viewModels="clr-namespace:ClinicApp.ViewModels"
+        xmlns:views="clr-namespace:ClinicApp.Views"
+        mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance viewModels:MainViewModel, IsDesignTimeCreatable=True}"
+        Title="MainWindow" Height="480" Width="960">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModels:PatientsViewModel}">
+            <views:PatientsView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModels:VisitsViewModel}">
+            <views:VisitsView/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DockPanel LastChildFill="False" Grid.Column="0">
+            <Button Command="{Binding GoToPatientsCommand}" DockPanel.Dock="Top" Height="50">PATIENTS</Button>
+            <Button Command="{Binding GoToVisitsCommand}" DockPanel.Dock="Top" Height="50">VISITS</Button>
+        </DockPanel>
+        <ContentControl Grid.Column="1" Content="{Binding CurrentViewModel}"/>
+    </Grid>
+</Window>

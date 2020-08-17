@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="ClinicApp.Views.VisitsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ClinicApp.Views"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:viewModels="clr-namespace:ClinicApp.ViewModels"
+             xmlns:models="clr-namespace:ClinicApp.Models"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             d:DataContext="{d:DesignInstance viewModels:VisitsViewModel, IsDesignTimeCreatable=True}"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="DarkSeaGreen">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer Grid.Column="0" Margin="10" VerticalScrollBarVisibility="Auto">
+            <DockPanel LastChildFill="True">
+                <StackPanel DockPanel.Dock="Top" DataContext="{Binding SelectedVisit}">
+                    <Label HorizontalAlignment="Center" Foreground="GreenYellow" FontWeight="Bold">SELECTED VISIT:</Label>
+                    <Label>VISIT DATE:</Label>
+                    <xctk:DateTimePicker FormatString="MM-dd-yy hh:mm" Value="{Binding VisitTime}"/>
+                    <Label>VISIT TYPE:</Label>
+                    <ComboBox SelectedItem="{Binding VisitType}">
+                        <models:VisitType>Primary</models:VisitType>
+                        <models:VisitType>Secondary</models:VisitType>
+                    </ComboBox>
+                    <Label>DIAGNOSIS:</Label>
+                    <TextBox MaxLength="2000" Text="{Binding Diagnosis}" TextWrapping="Wrap"></TextBox>
+                    <Label>PATIENT:</Label>
+                </StackPanel>
+                <DataGrid Margin="5" VerticalScrollBarVisibility="Auto" ItemsSource="{Binding ClinicContext.Patients.Local}" SelectedItem="{Binding SelectedPatient}" AutoGenerateColumns="False">
+                    <DataGrid.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="GreenYellow"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.CellStyle>
+                    <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="GreenYellow"/>
+                                    <Setter Property="Foreground" Value="Black"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="FullName" Binding="{Binding FullName}"/>
+                        <DataGridTextColumn IsReadOnly="True" Header="BirthDate" Binding="{Binding BirthDate, StringFormat='{}{0:dd/MM/yyyy}'}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </ScrollViewer>
+        <DockPanel Grid.Column="1" Margin="10">
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                    <ColumnDefinition Width="4*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Column="0" Margin="5" Background="GreenYellow" IsEnabled="{Binding IsActive}" Command="{Binding AddVisit}">
+                    ADD NEW VISIT
+                </Button>
+                <Button Grid.Column="1" Margin="5" Background="LightGray" Command="{Binding SaveChanges}">
+                    SAVE CHANGES
+                </Button>
+                <Button Grid.Column="2" Margin="5" Background="OrangeRed" Command="{Binding RemoveVisit}">
+                    REMOVE SELECTED VISIT
+                </Button>
+            </Grid>
+            <DataGrid VerticalScrollBarVisibility="Auto" ItemsSource="{Binding ClinicContext.Visits.Local}" SelectedItem="{Binding SelectedVisit}" AutoGenerateColumns="False">
+                <DataGrid.CellStyle>
+                    <Style TargetType="DataGridCell">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="GreenYellow"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.CellStyle>
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="GreenYellow"/>
+                                <Setter Property="Foreground" Value="Black"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                <DataGrid.Columns>
+                    <DataGridTextColumn IsReadOnly="True" Header="Id" Binding="{Binding Id}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Visit Time" Binding="{Binding VisitTime}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Visit Type" Binding="{Binding VisitType}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Diagnosis" Binding="{Binding Diagnosis}"/>
+                    <DataGridTextColumn IsReadOnly="True" Header="Patient" Binding="{Binding Patient.FullName}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </DockPanel>
+    </Grid>
+</UserControl>

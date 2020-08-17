@@ -1,0 +1,10 @@
+﻿<Application x:Class="ClinicApp.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:ClinicApp.Views"
+             xmlns:viewModels="clr-namespace:ClinicApp.ViewModels"
+             xmlns:views="clr-namespace:ClinicApp.Views">
+    <Application.Resources>
+         
+    </Application.Resources>
+</Application>
